@@ -1,4 +1,9 @@
 package com.parkplus.parkinglot.models;
 
-public class ExitGate {
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
+public class ExitGate extends Gate {
+    public String counterName;
+    public Integer counterNumber;
 }
