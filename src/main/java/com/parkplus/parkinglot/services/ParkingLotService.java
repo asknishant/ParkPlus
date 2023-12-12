@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class ParkingLotService {
-    ParkingLotRepository parkingLotRepository;
-
+    
+    private ParkingLotRepository parkingLotRepository;
+    private ParkingSpotService parkingSpotService;
     public ParkingLot create(ParkingLot parkingLot) {
-        return parkingLotRepository.save(parkingLot);
+        ParkingLot persistedLot = parkingLotRepository.save(parkingLot);
+        parkingSpotService.createParkingSpots(persistedLot);
+        return persistedLot;
     }
 
     public ParkingLot get(Long id) {

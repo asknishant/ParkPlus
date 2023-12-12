@@ -14,4 +14,10 @@ public class ParkingLotRepository {
         parkingLots.add(parkingLot);
         return parkingLot;
     }
+
+    public List<ParkingLot> findAll() {return parkingLots;}
+
+    public ParkingLot findById(Long id) {
+        return parkingLots.stream().filter(parkingLot -> parkingLot.getId().equals(id)).findFirst().orElse(null);
+    }
 }
