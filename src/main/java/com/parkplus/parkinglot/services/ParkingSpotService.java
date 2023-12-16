@@ -14,6 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class ParkingSpotService {
     private ParkingSpotRepository parkingSpotRepository;
+
+    public ParkingSpotService() {
+
+    }
+
     public ParkingSpot allocateSpot(Long parkingLotId, VehicleType vehicleType) {
         return parkingSpotRepository.findOneByVehicleTypeAndStatusAvailable(vehicleType);
     }
@@ -30,11 +35,19 @@ public class ParkingSpotService {
         parkingSpotRepository.saveAll(parkingSpots);
     }
 
+    public void markSlotBooked(ParkingSpot spot) {
+        parkingSpotRepository.save(spot);
+    }
+
     public List<ParkingSpot> getParkingSpots(Long id) {
         return parkingSpotRepository.findAllByParkingLotId(id);
     }
 
     public ParkingSpot getParkingSpot(Long id) {
         return parkingSpotRepository.findOneById(id);
+    }
+
+    public void emptyParkingSpots(ParkingSpot ps) {
+        parkingSpotRepository.empty(ps);
     }
 }
