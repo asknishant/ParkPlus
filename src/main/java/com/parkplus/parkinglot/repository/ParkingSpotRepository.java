@@ -57,4 +57,12 @@ public class ParkingSpotRepository {
                 .findFirst()
                 .get();
     }
+
+    public void empty(ParkingSpot ps) {
+        parkingSpots
+            .stream()
+            .filter(spot -> spot.getId().equals(ps.getId()))
+            .findFirst()
+            .get().setSpotStatus(SpotStatus.AVAILABLE);
+    }
 }
