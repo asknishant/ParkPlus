@@ -37,7 +37,7 @@ public class CreateParkingLotRequest  {
                         .paymentCounter(PaymentCounter.builder().build())
                         .build());
         parkingFloors.forEach(parkingFloor -> {parkingFloor.setId(ParkingFloorId.nextId());});
-        System.out.println(parkingFloors.stream().map(floor -> floor.getSpots().size()));
+//        System.out.println(parkingFloors.stream().map(floor -> floor.getSpots().size()));
 
         return ParkingLot
                 .builder()

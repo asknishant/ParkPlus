@@ -8,6 +8,7 @@ import com.parkplus.parkinglot.models.Ticket;
 import com.parkplus.parkinglot.models.Vehicle;
 import com.parkplus.parkinglot.repository.ParkingSpotRepository;
 import com.parkplus.parkinglot.repository.TicketRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,13 +16,17 @@ import java.time.LocalDateTime;
 @Service
 public class EntryGateService {
     private ParkingSpotRepository parkingSpotRepository;
+    @Autowired
     private ParkingSpotService parkingSpotService;
+    @Autowired
     private VehicleService vehicleService;
+    @Autowired
     private TicketRepository ticketRepository;
-    public Ticket create(CreateEntryRequest request) {
-        ParkingSpot parkingSpot = parkingSpotService.allocateSpot(request.getVehicle().getId(), request.getVehicle().getType());
-        if(parkingSpot == null) {
-            throw new SlotNotAvailableException(request.getVehicle().getType());
+    public Ticket create(Ticket ticket) {
+        ParkingSpot parkingSpot = parkingSpotService.markSlotBooked(ticket.getParkingSpot());
+        System.out.println(ticket.getParkingSpot().getSpotStatus() + "my parking spot");
+        if(parkingSpot.getSpotStatus().equals("OCCUPIED")) {
+            throw new SlotNotAvailableException(ticket.getVehicle().getType());
         }
         // Update the status of spot
         parkingSpot.setSpotStatus(SpotStatus.OCCUPIED);
@@ -30,17 +35,17 @@ public class EntryGateService {
         // Fetch and create
         // If vehicle number and type is present, use that
         // else create a new one.
-        Vehicle vehicle = vehicleService.findOrCreate(request.getVehicle().getLicenseNumber(), request.getVehicle().getType());
+        Vehicle vehicle = vehicleService.findOrCreate(ticket.getVehicle().getLicenseNumber(), ticket.getVehicle().getType());
 
         // Create a ticket and save it.
-        Ticket ticket = Ticket.builder()
+        Ticket newTicket = Ticket.builder()
                 .entryTime(LocalDateTime.now())
                 .parkingSpot(updateSpot)
                 .vehicle(vehicle)
-                .entryGateId(Long.valueOf(request.getEntryGate().counterNumber))
+                .entryGateId(ticket.getEntryGate())
                 .build();
 
         // create a ticket and save it.
-        return ticketRepository.save(ticket);
+        return ticketRepository.save(newTicket);
     }
 }

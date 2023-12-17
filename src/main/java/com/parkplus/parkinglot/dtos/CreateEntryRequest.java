@@ -11,4 +11,14 @@ public class CreateEntryRequest {
     private Vehicle vehicle;
     private EntryGate entryGate;
     private ParkingOperator parkingOperator;
+
+    public Ticket toTicket() {
+        ParkingSpot parkingSpot = vehicle.getParkingSpots().get(0);
+        System.out.println(parkingSpot + vehicle.getLicenseNumber() + " " + entryGate + " " + parkingOperator + " Print");
+        return Ticket.builder()
+                .vehicle(vehicle)
+                .parkingSpot(parkingSpot)
+                .build();
+    }
 }
+

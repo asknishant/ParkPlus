@@ -1,6 +1,8 @@
 package com.parkplus.parkinglot.controllers;
 
 import com.parkplus.parkinglot.dtos.CreateEntryRequest;
+import com.parkplus.parkinglot.dtos.CreateParkingLotRequest;
+import com.parkplus.parkinglot.models.ParkingLot;
 import com.parkplus.parkinglot.models.Ticket;
 import com.parkplus.parkinglot.services.EntryGateService;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,11 @@ public class EntryGateController {
     private EntryGateService entryGateService;
     @PostMapping
     public Ticket createTicket(@RequestBody CreateEntryRequest request) {
-        return entryGateService.create(request);
+        Ticket ticket = transform(request);
+        System.out.println(ticket);
+        return entryGateService.create(ticket);
+    }
+    private Ticket transform(CreateEntryRequest request) {
+        return request.toTicket();
     }
 }
