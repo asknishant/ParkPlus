@@ -27,14 +27,13 @@ public class ParkingSpotService {
     public void createParkingSpots(ParkingLot lot) {
         List<ParkingSpot> parkingSpots = lot.getFloors()
                 .stream()
-                .flatMap(floor -> floor.getSpots().stream().filter(parkingSpot -> parkingSpot.getSpotStatus().equals("AVAILABLE")))
+                .flatMap(floor -> floor.getSpots().stream())
                 .collect(Collectors.toList());
         parkingSpotRepository.saveAll(parkingSpots);
     }
 
     public ParkingSpot markSlotBooked(ParkingSpot spot) {
-        parkingSpotRepository.save(spot);
-        return spot;
+        return parkingSpotRepository.save(spot);
     }
 
     public List<ParkingSpot> getParkingSpots(Long id) {

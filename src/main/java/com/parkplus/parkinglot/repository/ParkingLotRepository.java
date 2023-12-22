@@ -12,6 +12,7 @@ public class ParkingLotRepository {
 
     public ParkingLot save(ParkingLot parkingLot) {
         parkingLots.add(parkingLot);
+        System.out.println(parkingLots.size());
         return parkingLot;
     }
 

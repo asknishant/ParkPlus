@@ -5,20 +5,16 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @SuperBuilder
 @Getter
 public class Ticket extends BaseModel {
-    private Long vehicleId;
     private Vehicle vehicle;
-
-    private Long parkingSpotId;
-    private ParkingSpot parkingSpot;
+    private List<ParkingSpot> parkingSpot;
 
     private LocalDateTime entryTime;
-    private Long issuerId;
+    private ParkingOperator operator;
 
-    private ParkingOperator issuedBy;
-    private Long entryGateId;
-    private Long entryGate;
+    private EntryGate entryGate;
 }

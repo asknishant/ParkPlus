@@ -2,6 +2,7 @@ package com.parkplus.parkinglot.repository;
 
 import com.parkplus.parkinglot.models.ParkingSpot;
 import com.parkplus.parkinglot.models.SpotStatus;
+import com.parkplus.parkinglot.models.SpotType;
 import com.parkplus.parkinglot.models.VehicleType;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +19,9 @@ public class ParkingSpotRepository {
     }
 
     public ParkingSpot findOneByVehicleTypeAndStatusAvailable(VehicleType type) {
+        System.out.println(parkingSpots.size());
         for (ParkingSpot parkingSpot : parkingSpots) {
-            if (parkingSpot.getSpotStatus() == SpotStatus.AVAILABLE && parkingSpot.getVehicleType() == type) {
+            if (parkingSpot.getSpotStatus() == SpotStatus.AVAILABLE && parkingSpot.getSpotType() == SpotType.MEDIUM) {
                 return parkingSpot;
             }
         }
@@ -27,7 +29,7 @@ public class ParkingSpotRepository {
     }
 
     public ParkingSpot update(ParkingSpot filledSpot) {
-
+        System.out.println("Filled spot:" + filledSpot);
         ParkingSpot currentSpot = parkingSpots
                 .stream()
                 .filter(spot -> spot.getId().equals(filledSpot.getId()))
@@ -41,7 +43,6 @@ public class ParkingSpotRepository {
     }
 
     public void saveAll(List<ParkingSpot> spots) {
-        System.out.println("Parking Spots: " + spots);
         parkingSpots.addAll(spots);
         System.out.println("Parking Spots: " + parkingSpots);
     }
